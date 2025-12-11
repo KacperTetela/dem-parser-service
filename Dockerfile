@@ -18,4 +18,4 @@ EXPOSE 80
 
 # Run with Gunicorn-style workers via Uvicorn for concurrency
 # --workers 4 allows handling multiple requests in parallel (via multiprocessing)
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80", "--workers", "4"]
+CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port ${PORT:-80} --workers 4"]
