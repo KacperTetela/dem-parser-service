@@ -2,4 +2,4 @@ fastapi
 uvicorn
 python-multipart
 pandas
-awpy==2.0.0b4
+awpy
