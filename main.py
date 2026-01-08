@@ -12,8 +12,6 @@ from starlette.background import BackgroundTask
 from processor import process_demo_file
 
 
-# --- LIFESPAN (Zastępuje on_event startup) ---
-# Ta funkcja uruchamia się przy starcie aplikacji i zamyka przy wyłączeniu
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Logika startowa (Startup)
@@ -30,7 +28,6 @@ async def lifespan(app: FastAPI):
     print("Shutdown: Temp folder removed.")
 
 
-# Przekazujemy lifespan do aplikacji
 app = FastAPI(title="CS:GO Demo Processor Microservice", lifespan=lifespan)
 
 
@@ -57,7 +54,6 @@ def parse_demo(file: UploadFile = File(...), background_tasks: BackgroundTasks =
         raise HTTPException(status_code=500, detail=f"Failed to upload file: {str(e)}")
 
     try:
-        # Pamiętaj, że process_demo_file musi być zaktualizowane (wersja z adr)
         generated_files = process_demo_file(str(file_location), str(output_dir))
 
         if not generated_files:
@@ -98,6 +94,5 @@ def cleanup_files(path: Path):
 if __name__ == "__main__":
     import uvicorn
 
-    # Upewniamy się, że folder istnieje przed startem uvicorn (dla bezpieczeństwa)
     os.makedirs("temp", exist_ok=True)
     uvicorn.run(app, host="0.0.0.0", port=7355)
